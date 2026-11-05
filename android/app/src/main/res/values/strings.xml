@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">مشجرة العائلة</string>
+    <string name="title_activity_main">مشجرة العائلة</string>
+    <string name="package_name">com.loay94an.familyapp</string>
+    <string name="custom_url_scheme">com.loay94an.familyapp</string>
+</resources>
