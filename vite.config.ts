@@ -6,7 +6,7 @@ import {VitePWA} from 'vite-plugin-pwa';
 
 export default defineConfig(() => {
   return {
-    base: '/family_app/',
+    base: process.env.BUILD_TARGET === 'android' ? './' : '/family_app/',
     plugins: [
       react(),
       tailwindcss(),
