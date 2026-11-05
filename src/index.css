@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+@layer utilities {
+  @keyframes leafSway {
+    0%, 100% { transform: rotate(-2deg); }
+    50% { transform: rotate(2deg); }
+  }
+  .animate-leaf-sway {
+    transform-origin: center bottom;
+    animation: leafSway 4s ease-in-out infinite;
+  }
+  .animate-leaf-sway-delayed {
+    transform-origin: center bottom;
+    animation: leafSway 5s ease-in-out infinite 0.5s;
+  }
+  .animate-leaf-sway-slow {
+    transform-origin: center bottom;
+    animation: leafSway 6s ease-in-out infinite 1s;
+  }
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(46, 125, 50, 0.4);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(46, 125, 50, 0.7);
+}

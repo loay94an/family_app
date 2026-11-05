@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#064e3b" />
+      <stop offset="50%" stop-color="#022c22" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="50%" stop-color="#eab308" />
+      <stop offset="100%" stop-color="#ca8a04" />
+    </linearGradient>
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="512" height="512" rx="108" fill="url(#bgGrad)" />
+
+  <!-- Outer Heritage Border Ring -->
+  <rect x="24" y="24" width="464" height="464" rx="88" fill="none" stroke="url(#goldGrad)" stroke-width="6" stroke-dasharray="12 6" opacity="0.8" />
+  <circle cx="256" cy="256" r="216" fill="none" stroke="url(#goldGrad)" stroke-width="3" opacity="0.4" />
+
+  <!-- Tree Trunk & Roots -->
+  <path d="M 236 410 C 236 340 210 300 180 260 C 170 246 160 230 160 210 M 276 410 C 276 340 302 300 332 260 C 342 246 352 230 352 210 M 256 410 L 256 220 M 230 405 C 200 420 160 425 120 420 M 282 405 C 312 420 352 425 392 420" fill="none" stroke="url(#goldGrad)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- Branches -->
+  <path d="M 256 310 C 210 290 170 270 130 270 M 256 310 C 302 290 342 270 382 270 M 256 250 C 220 220 180 190 150 170 M 256 250 C 292 220 332 190 362 170 M 256 210 L 256 120" fill="none" stroke="url(#goldGrad)" stroke-width="10" stroke-linecap="round" />
+
+  <!-- Botanical Leaves / Foliage Clusters -->
+  <circle cx="256" cy="100" r="32" fill="url(#leafGrad)" stroke="url(#goldGrad)" stroke-width="4" filter="url(#glow)" />
+  <circle cx="140" cy="160" r="28" fill="url(#leafGrad)" stroke="url(#goldGrad)" stroke-width="4" />
+  <circle cx="372" cy="160" r="28" fill="url(#leafGrad)" stroke="url(#goldGrad)" stroke-width="4" />
+  <circle cx="110" cy="260" r="24" fill="url(#leafGrad)" stroke="url(#goldGrad)" stroke-width="3" />
+  <circle cx="402" cy="260" r="24" fill="url(#leafGrad)" stroke="url(#goldGrad)" stroke-width="3" />
+  <circle cx="190" cy="130" r="22" fill="url(#leafGrad)" stroke="url(#goldGrad)" stroke-width="3" />
+  <circle cx="322" cy="130" r="22" fill="url(#leafGrad)" stroke="url(#goldGrad)" stroke-width="3" />
+
+  <!-- Central Crescent Emblem -->
+  <path d="M 256 185 A 30 30 0 1 0 280 220 A 24 24 0 1 1 256 185 Z" fill="url(#goldGrad)" opacity="0.9" />
+
+  <!-- Stars -->
+  <polygon points="256,70 260,82 272,82 262,90 266,102 256,94 246,102 250,90 240,82 252,82" fill="#ffffff" />
+  <polygon points="140,135 143,143 151,143 145,148 147,156 140,151 133,156 135,148 129,143 137,143" fill="#ffffff" />
+  <polygon points="372,135 375,143 383,143 377,148 379,156 372,151 365,156 367,148 361,143 369,143" fill="#ffffff" />
+</svg>

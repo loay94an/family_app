@@ -1,0 +1,6 @@
+{
+  "name": "شجرة العائلة الاحترافية",
+  "description": "تطبيق متقدم لبناء وعرض شجرة العائلة بشكل واقعي وتفاعلي مع حفظ محلي متطور والتحكم بأحجام الأسماء",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
