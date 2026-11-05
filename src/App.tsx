@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Plus } from 'lucide-react';
 import { jsPDF } from 'jspdf';
+import { Capacitor } from '@capacitor/core';
+import { Filesystem, Directory } from '@capacitor/filesystem';
+import { Share } from '@capacitor/share';
 import confetti from 'canvas-confetti';
 import {
   TreeNode,
@@ -31,6 +34,38 @@ import { Toast } from './components/Toast';
 import { ConfirmModal, ConfirmDialogState } from './components/ConfirmModal';
 import { ExportPdfModal, ExportPdfOptions } from './components/ExportPdfModal';
 import { OfflineIndicator } from './components/OfflineIndicator';
+
+
+async function shareExportFile(blob: Blob, fileName: string): Promise<void> {
+  const dataUrl = await new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = () => reject(new Error('تعذرت قراءة الملف'));
+    reader.readAsDataURL(blob);
+  });
+
+  const base64 = dataUrl.split(',')[1];
+  if (!base64) throw new Error('تعذر تجهيز الملف');
+
+  const saved = await Filesystem.writeFile({
+    path: fileName,
+    data: base64,
+    directory: Directory.Cache,
+    recursive: true,
+  });
+
+  const file = await Filesystem.getUri({
+    directory: Directory.Cache,
+    path: fileName,
+  });
+
+  await Share.share({
+    title: fileName,
+    text: 'ملف تصدير شجرة العائلة',
+    url: file.uri || saved.uri,
+    dialogTitle: 'حفظ أو مشاركة الملف',
+  });
+}
 
 export default function App() {
   // Tree & App State
@@ -1232,15 +1267,30 @@ export default function App() {
     try {
       const { canvas } = await renderTreeToCanvas({ dpi: 300, bgMode: 'theme' });
 
-      canvas.toBlob(blob => {
-        if (!blob) throw new Error('فشل إنشاء ملف الصورة');
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = `شجرة_${root.name}_عالية_الدقة.png`;
-        link.click();
-        URL.revokeObjectURL(link.href);
-        setIsExporting(false);
-        showToast('✅ تم تصدير صورة PNG فائقة الدقة بنجاح');
+      canvas.toBlob(async blob => {
+        try {
+          if (!blob) throw new Error('فشل إنشاء ملف الصورة');
+
+          const fileName = `شجرة_${root.name}_عالية_الدقة.png`;
+
+          if (Capacitor.isNativePlatform()) {
+            await shareExportFile(blob, fileName);
+          } else {
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.href = url;
+            link.download = fileName;
+            link.click();
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+          }
+
+          setIsExporting(false);
+          showToast('✅ تم تجهيز صورة PNG بنجاح');
+        } catch (err) {
+          console.error('PNG export error:', err);
+          setIsExporting(false);
+          showToast('❌ تعذر حفظ الصورة أو مشاركتها', 'error');
+        }
       }, 'image/png', 1.0);
     } catch (err) {
       console.error(err);
@@ -1375,7 +1425,14 @@ export default function App() {
       pdf.addImage(canvas, 'PNG', drawX, drawY, drawW, drawH, undefined, 'FAST');
 
       // Save PDF File
-      pdf.save(`شجرة_العائلة_${root.name}_${options.paperSize.toUpperCase()}_طباعة.pdf`);
+      const pdfFileName = `شجرة_العائلة_${root.name}_${options.paperSize.toUpperCase()}_طباعة.pdf`;
+
+      if (Capacitor.isNativePlatform()) {
+        const pdfBlob = pdf.output('blob');
+        await shareExportFile(pdfBlob, pdfFileName);
+      } else {
+        pdf.save(pdfFileName);
+      }
 
       setIsExportPdfModalOpen(false);
       setIsExporting(false);
